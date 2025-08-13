@@ -1,0 +1,328 @@
+{
+  "info": {
+    "_postman_id": "a8d8e3f7-8e8e-4f8e-8e8e-8e8e8e8e8e8e",
+    "name": "PCA-Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Superadmin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Super Admin\",\n    \"phone\": \"0987654321\",\n    \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register-superadmin",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register-superadmin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"phone\": \"1234567890\",\n    \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Superadmin",
+      "item": [
+        {
+          "name": "Create Shop",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{superadmin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"My Awesome Shop\",\n    \"address\": \"123 Main St\",\n    \"ownerPhone\": \"1234567890\",\n    \"ownerPassword\": \"shopadminpass\",\n    \"ownerEmail\": \"shopadmin@example.com\",\n    \"upiId\": \"myshop@upi\",\n    \"qrCodeImageUrl\": \"http://example.com/qr.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shops",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List All Shops",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{superadmin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shops",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Shop",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/shops/60f7e1b3b3f3b3f3b3f3b3f3",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops", "60f7e1b3b3f3b3f3b3f3b3f3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Shop",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"New Awesome Shop Name\",\n    \"address\": \"456 Updated St\",\n    \"upiId\": \"newshop@upi\",\n    \"qrCodeImageUrl\": \"http://example.com/new_qr.png\",\n    \"isActive\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shops/YOUR_SHOP_ID",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops", "YOUR_SHOP_ID"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shop Admin",
+      "item": [
+        {
+          "name": "Get Orders for a Shop",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{shopadmin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shops/{{shop_id}}/orders?status=PENDING",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops", "{{shop_id}}", "orders"],
+              "query": [
+                {
+                  "key": "customerName",
+                  "value": "John Doe",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{shopadmin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"customerName\": \"Jane Doe\",\n    \"items\": [{\"name\": \"Item 1\", \"quantity\": 2}],\n    \"amount\": 100.50,\n    \"dueDate\": \"2025-12-31T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shops/{{shop_id}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops", "{{shop_id}}", "orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{shopadmin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"IN_PROGRESS\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/shops/{{shop_id}}/orders/{{order_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops", "{{shop_id}}", "orders", "{{order_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{shopadmin_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/shops/{{shop_id}}/orders/{{order_id}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["shops", "{{shop_id}}", "orders", "{{order_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Get Shop by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/public/my-awesome-shop",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "my-awesome-shop"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Public Orders for Shop",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/public/my-awesome-shop/orders?search=John",
+              "host": ["{{baseUrl}}"],
+              "path": ["public", "my-awesome-shop", "orders"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "John"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

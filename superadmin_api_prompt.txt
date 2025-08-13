@@ -1,0 +1,52 @@
+Hello Copilot,
+
+I need to create a set of API endpoints for the SuperAdmin role in my NestJS application. The SuperAdmin should have full control over managing shops and users. Please follow the detailed specifications below to implement the features.
+
+**General Requirements:**
+*   All endpoints listed below must be protected and accessible only by users with the `SUPERADMIN` role.
+*   Use the existing `JwtAuthGuard` and `RolesGuard` for this purpose: `@UseGuards(JwtAuthGuard, RolesGuard)` and `@Roles(UserRole.SUPERADMIN)`.
+*   Assume `UserRole` is available from `src/users/schemas/user.schema`.
+
+---
+
+### **Part 1: Shop Management APIs**
+**Controller to modify:** `src/shops/shops.controller.ts`
+**Service to modify:** `src/shops/shops.service.ts`
+
+---
+
+**1.1. Create a new shop**
+*   **Endpoint:** `POST /shops`
+*   **Description:** Creates a new shop and its associated shop administrator. This endpoint already exists but needs role protection.
+*   **Authorization:** `SUPERADMIN`
+*   **Request Body (`CreateShopDto`):**
+    ```json
+    {
+      "name": "My Awesome Shop",
+      "address": "123 Main St, Anytown",
+      "ownerName": "John Doe",
+      "ownerEmail": "john.doe@example.com",
+      "ownerPhone": "1234567890",
+      "ownerPassword": "password123",
+      "upiId": "optional-upi@id",
+      "qrCodeImageUrl": "http://example.com/qr.png"
+    }
+    ```
+*   **Success Response:**
+    *   **Code:** `201 Created`
+    *   **Content:** The created shop object.
+*   **Error Responses:**
+    *   `400 Bad Request`: Invalid payload.
+    *   `409 Conflict`: Shop name is already taken.
+
+---
+
+**1.2. Get all shops**
+*   **Endpoint:** `GET /shops`
+*   **Description:** Retrieves a list of all shops. This endpoint already exists but needs role protection.
+*   **Authorization:** `SUPERADMIN`
+*   **Success Response:**
+    *   **Code:** `200 OK`
+    *   **Content:** An array of shop objects.
+
+---
