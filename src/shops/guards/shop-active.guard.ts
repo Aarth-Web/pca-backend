@@ -4,16 +4,23 @@ import {
   ExecutionContext,
   ForbiddenException,
 } from '@nestjs/common';
-import { User, UserRole } from '../../users/schemas/user.schema';
+import { UserRole } from '../../users/schemas/user.schema';
+import { ShopsService } from '../shops.service';
 
 @Injectable()
 export class ShopActiveGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
+  constructor(private readonly shopsService: ShopsService) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user as User;
+    const user = request.user;
 
     if (user.role === UserRole.SHOPADMIN) {
-      if (!user.shopId || !user.shopId.isActive) {
+      if (!user.shopId) {
+        throw new ForbiddenException('Shop is not assigned to this user.');
+      }
+      const shop = await this.shopsService.findOne(user.shopId);
+      if (!shop || !shop.isActive) {
         throw new ForbiddenException('Shop is deactivated.');
       }
     }

@@ -33,7 +33,7 @@ export class OrdersController {
     @Body() createOrderDto: CreateOrderDto,
     @Request() req,
   ) {
-    if (req.user.shopId._id !== shopId) {
+    if (req.user.shopId !== shopId) {
       throw new UnauthorizedException(
         'You can only create orders for your own shop.',
       );
@@ -50,7 +50,7 @@ export class OrdersController {
     @Query('status') status: string,
     @Request() req,
   ) {
-    if (req.user.shopId._id !== shopId) {
+    if (req.user.shopId !== shopId) {
       throw new UnauthorizedException(
         'You can only view orders for your own shop.',
       );
@@ -67,7 +67,7 @@ export class OrdersController {
     @Body() updateOrderDto: UpdateOrderDto,
     @Request() req,
   ) {
-    if (req.user.shopId._id !== shopId) {
+    if (req.user.shopId !== shopId) {
       throw new UnauthorizedException(
         'You can only update orders for your own shop.',
       );
